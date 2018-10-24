@@ -1,5 +1,12 @@
+
+#flex{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 canvas{
-    border: 1px solid black;
+    border: 2px solid black;
     max-width: 100%;
     display: block;
   }
