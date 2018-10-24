@@ -1,40 +1,49 @@
 var canvas = document.querySelector('canvas')
 var ctx = canvas.getContext('2d')
-// Initialisation on global variables
 
-var x = canvas.width/2;
-var y = canvas.height-30; 
-var dx = 2;
-var dy = -2;
-var ballRadius = 10; 
+// TODO
+// 
+// Collision
+// Game over
+// 
+// Score
+
 var paddleHeight = 10;
 var paddleWidth = 30;
 var paddleX = (canvas.width-paddleWidth)/2;
 var rightPressed = false;
 var leftPressed = false;
 
-function drawBall(){
-    ctx.beginPath();
-    ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-    ctx.fillStyle = "green";
-    ctx.fill();
-    ctx.closePath();
-}
+var lightBlue = new Ball(20, 10, 2, -3, 10, "#00c1cb")
+var darkBlue1 = new Ball(10, 20, 4, 5, 10, "#2b4669")
+var darkBlue2 = new Ball(8, 40, 2, 5, 10, "#2b4669")
+
+var darkBlue3 = new Ball(20, 60, 2, 3, 10, "#2b4669")
+var darkBlue4 = new Ball(12, 80, 2, 3, 10, "#2b4669")
+var darkBlue5 = new Ball(90, 10, 2, 3, 10, "#2b4669")
+var darkBlue6 = new Ball(100, 100, 2, 3, 10, "#2b4669")
+
+
+
+var balls = [lightBlue, darkBlue1, darkBlue2, darkBlue3];
 
 function drawPaddle() {
     ctx.beginPath();
     ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
-    ctx.fillStyle = "red";
+    ctx.fillStyle = "#00c1cb";
     ctx.fill();
     ctx.closePath();
 }
 
 function drawAndUpdate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawBall();
+
+    for(i=0; i < balls.length; i++){
+        balls[i].draw()
+        balls[i].update() 
+    }
     drawPaddle(); 
-    x += dx;
-    y += dy;
+   
 
     
     if(rightPressed && paddleX < canvas.width-paddleWidth) {
@@ -44,21 +53,6 @@ function drawAndUpdate() {
         paddleX -= 7;
     }
 
-    if(y + dy > canvas.height || y + dy < 0) {
-        dy = -dy 
-    } 
-
-    if(x + dx > canvas.width || x + dx < 0){
-        dx = -dx
-    }
-
-    if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
-        dx = -dx;
-    }
-
-    if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {
-        dy = -dy;
-    }
     //escuchadores de eventos
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);

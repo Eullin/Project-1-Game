@@ -3,7 +3,7 @@ class Game {
       this.score = 0;
       this.life = 3;
       this.speed = 0;
-      this.currentColor = "";
+      this.currentColor = "green";
     } 
   
     gameOver() {
