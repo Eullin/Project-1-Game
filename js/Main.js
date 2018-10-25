@@ -97,12 +97,7 @@ function drawAndUpdate() {
         audio.play();
       if (life <= 0) {
         ctx.font = "100px Arial";
-        //ctx.fillText("Level",canvas.width/2-160,canvas.height/2-100);
-        /* ctx.fillText(
-          "Game Over",
-          canvas.width / 2 - 280,
-          canvas.height / 2 + 50
-        ); */
+     
         $("#play-again").show();
         clearInterval(gameInterval);
 
@@ -120,8 +115,7 @@ function drawAndUpdate() {
 
   //     console.log("game over")
   // }
-  /* Audio.play();
-Audio.pause();  */
+
 
   //escuchadores de eventos
   document.addEventListener("keydown", keyDownHandler, false);

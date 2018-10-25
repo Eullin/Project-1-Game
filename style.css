@@ -86,10 +86,13 @@ canvas {
 #aqua {
   color: #00c1cb;
   stroke: #00c1cb;
+  font-weight: bold;
+
 }
 
 #darkBlue {
   color: #2b4669;
+  font-weight: bold;
 }
 
 .underline {
@@ -107,7 +110,7 @@ canvas {
   height: 30px;
 }
 
-.game-button{
+ .game-button{
   background-color: #E6B9CD;
   position: relative;
   top: 300px;
@@ -117,5 +120,5 @@ canvas {
   border-bottom: 5px;
   width: 100px;
   height: 40px;
-}
+} 
 
