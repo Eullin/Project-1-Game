@@ -1,9 +1,12 @@
-$("#gameover").hide("slow");
-var canvas = document.querySelector("canvas");
-var ctx = canvas.getContext("2d");
 // TODO
 // Add the function to start the
 // Game over
+
+
+$("#play-again").hide();
+$("#gameover").hide("slow");
+var canvas = document.querySelector("canvas");
+var ctx = canvas.getContext("2d");
 
 var paddleHeight = 20;
 var paddleWidth = 100;
@@ -14,7 +17,7 @@ var paddleY = canvas.height - paddleHeight;
 var rightPressed = false;
 var leftPressed = false;
 var audio;
-
+var audioLose;
 
 var lightBlue = new Ball(20, 20, 3, 6, 17, "#00c1cb");
 var darkBlue1 = new Ball(400, 100, 4, 4, 17, "#2b4669");
@@ -33,6 +36,10 @@ function drawPaddle() {
   ctx.fill();
   ctx.closePath();
 }
+
+/* function drawHighScore(){
+    getHighScores();
+} */
 
 function drawScore() {
   ctx.fillStyle = "#2b4669";
@@ -55,9 +62,7 @@ function drawAndUpdate() {
   drawPaddle();
   drawScore();
   drawLife();
-
-
-  
+//  drawHighScore();
 
   if (rightPressed && paddleX < canvas.width - paddleWidth) {
     paddleX += 14;
@@ -75,14 +80,12 @@ function drawAndUpdate() {
       balls[i].left() <= paddleX + paddleWidth &&
       balls[i].color === "#00c1cb"
     ) {
-    
       score++;
       var audio = new Sound("../sound/positive sound.mp3");
       audio.play();
-      console.log(audio)
+      console.log(audio);
       balls[i].y = paddleY - balls[i].radius;
       balls[i].dy *= -1;
-      
     } else if (
       balls[i].bottom() >= paddleY &&
       balls[i].top() <= paddleY + paddleHeight &&
@@ -90,20 +93,20 @@ function drawAndUpdate() {
       balls[i].left() <= paddleX + paddleWidth &&
       balls[i].color === "#2b4669"
     ) {
+        var audio = new Sound("../sound/zapsplat_multimedia_game_zap_laser_005_24950.mp3");
+        audio.play();
       if (life <= 0) {
-        //  alert("game over")
         ctx.font = "100px Arial";
         //ctx.fillText("Level",canvas.width/2-160,canvas.height/2-100);
-        ctx.fillText(
+        /* ctx.fillText(
           "Game Over",
           canvas.width / 2 - 280,
           canvas.height / 2 + 50
-        );
+        ); */
+        $("#play-again").show();
+        clearInterval(gameInterval);
 
-        setTimeout(() => {
-          clearInterval(gameInterval);
-          $("#play-again").show();
-        }, 1000);
+        setTimeout(() => {}, 1000);
       } else {
         life--;
       }
@@ -117,7 +120,7 @@ function drawAndUpdate() {
 
   //     console.log("game over")
   // }
-/* Audio.play();
+  /* Audio.play();
 Audio.pause();  */
 
   //escuchadores de eventos
@@ -149,7 +152,16 @@ var gameInterval;
 $(document).ready(function() {
   $("#play").click(function() {
     console.log("click");
-    $(".play-again-div").hide();
+    $("#play").hide();
+    $("#play-again").hide();
     gameInterval = setInterval(drawAndUpdate, 10);
   });
+  $("#play-again").click(function() {
+    gameInterval = setInterval(drawAndUpdate, 10);
+    $("#play-again").hide();
+    life = 3;
+  });
 });
+
+
+
