@@ -27,7 +27,7 @@ class Ball {
       ctx.fill();
       ctx.closePath();
     }
-    
+     
     update(){
         this.x += this.dx;
         this.y += this.dy;
