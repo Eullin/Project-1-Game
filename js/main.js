@@ -1,9 +1,20 @@
 // TODO
 // Add the function to start the
 // Game over
+$(document).ready(function() {
+  $("#play-again").hide();
+  $("#play").click(function() {
+    console.log("click");
+    $("#play").hide();
+    gameInterval = setInterval(drawAndUpdate, 10);
+  });
+  $("#play-again").click(function() {
+    gameInterval = setInterval(drawAndUpdate, 10);
+    $("#play-again").hide();
+    life = 3;
+  });
+});
 
-
-$("#play-again").hide();
 $("#gameover").hide("slow");
 var canvas = document.querySelector("canvas");
 var ctx = canvas.getContext("2d");
@@ -62,7 +73,7 @@ function drawAndUpdate() {
   drawPaddle();
   drawScore();
   drawLife();
-//  drawHighScore();
+  //  drawHighScore();
 
   if (rightPressed && paddleX < canvas.width - paddleWidth) {
     paddleX += 14;
@@ -93,11 +104,13 @@ function drawAndUpdate() {
       balls[i].left() <= paddleX + paddleWidth &&
       balls[i].color === "#2b4669"
     ) {
-        var audio = new Sound("../sound/zapsplat_multimedia_game_zap_laser_005_24950.mp3");
-        audio.play();
+      var audio = new Sound(
+        "../sound/zapsplat_multimedia_game_zap_laser_005_24950.mp3"
+      );
+      audio.play();
       if (life <= 0) {
         ctx.font = "100px Arial";
-     
+
         $("#play-again").show();
         clearInterval(gameInterval);
 
@@ -115,7 +128,6 @@ function drawAndUpdate() {
 
   //     console.log("game over")
   // }
-
 
   //escuchadores de eventos
   document.addEventListener("keydown", keyDownHandler, false);
@@ -142,20 +154,3 @@ function drawAndUpdate() {
 var gameInterval;
 // var gameInterval = setInterval(drawAndUpdate, 10);
 // tarea para después: cambia el color de la bola a un color al azar, cada vez que golpea una pared.
-
-$(document).ready(function() {
-  $("#play").click(function() {
-    console.log("click");
-    $("#play").hide();
-    $("#play-again").hide();
-    gameInterval = setInterval(drawAndUpdate, 10);
-  });
-  $("#play-again").click(function() {
-    gameInterval = setInterval(drawAndUpdate, 10);
-    $("#play-again").hide();
-    life = 3;
-  });
-});
-
-
-
