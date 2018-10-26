@@ -21,7 +21,10 @@ var ctx = canvas.getContext("2d");
 
 var paddleHeight = 20;
 var paddleWidth = 100;
+
 var score = 0;
+var highScore = 0;
+
 var life = 3;
 var paddleX = (canvas.width - paddleWidth) / 2;
 var paddleY = canvas.height - paddleHeight;
@@ -38,7 +41,7 @@ var darkBlue4 = new Ball(500, 80, 4, 4, 17, "#2b4669");
 var darkBlue5 = new Ball(200, 10, 4, 4, 17, "#2b4669");
 var darkBlue6 = new Ball(200, 100, 4, 4, 17, "#2b4669");
 
-var balls = [lightBlue, darkBlue1, darkBlue2, darkBlue3];
+var balls = [lightBlue, darkBlue1];
 
 function drawPaddle() {
   ctx.beginPath();
@@ -48,20 +51,26 @@ function drawPaddle() {
   ctx.closePath();
 }
 
-/* function drawHighScore(){
-    getHighScores();
-} */
+function drawHighScore() {
+  ctx.fillStyle = "#2b4669";
+  ctx.stroke = "2";
+  ctx.font = "20px arial";
+  ctx.fillText("HIGHEST SCORE: " + highScore, 700, 85, 600);
+  if (score >= highScore) {
+    highScore = score;
+  }
+}
 
 function drawScore() {
   ctx.fillStyle = "#2b4669";
   ctx.stroke = "2";
   ctx.font = "20px arial";
-  ctx.fillText("SCORE: " + score, 80, 80, 100);
+  ctx.fillText("SCORE: " + score, 80, 85, 120);
 }
 function drawLife() {
   ctx.fillStyle = "#2b4669";
   ctx.font = "20px sans-serif";
-  ctx.fillText("LIFE: " + life, 80, 110, 600);
+  ctx.fillText("LIFE: " + life, 80, 115, 600);
 }
 function drawAndUpdate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -73,7 +82,7 @@ function drawAndUpdate() {
   drawPaddle();
   drawScore();
   drawLife();
-  //  drawHighScore();
+  drawHighScore();
 
   if (rightPressed && paddleX < canvas.width - paddleWidth) {
     paddleX += 14;
@@ -83,7 +92,6 @@ function drawAndUpdate() {
 
   // Check collision
   for (var i = 0; i < balls.length; i++) {
-    // check collision
     if (
       balls[i].bottom() >= paddleY &&
       balls[i].top() <= paddleY + paddleHeight &&
@@ -92,11 +100,25 @@ function drawAndUpdate() {
       balls[i].color === "#00c1cb"
     ) {
       score++;
+
       var audio = new Sound("../sound/positive sound.mp3");
       audio.play();
       console.log(audio);
       balls[i].y = paddleY - balls[i].radius;
       balls[i].dy *= -1;
+      switch (score) {
+        case 3:
+          balls.push(darkBlue2);
+          break;
+        case 10:
+          balls.push(darkBlue3);
+          break;
+        case 25:
+          balls.push(darkBlue4);
+          break;
+          default:
+          return false;
+      }
     } else if (
       balls[i].bottom() >= paddleY &&
       balls[i].top() <= paddleY + paddleHeight &&
@@ -114,7 +136,8 @@ function drawAndUpdate() {
         $("#play-again").show();
         clearInterval(gameInterval);
 
-        setTimeout(() => {}, 1000);
+        score = 0;
+        balls = [lightBlue, darkBlue1];
       } else {
         life--;
       }
@@ -123,11 +146,6 @@ function drawAndUpdate() {
       balls[i].dy *= -1;
     }
   }
-  // function gameover (){
-  //     // $("#gameover").show(100)
-
-  //     console.log("game over")
-  // }
 
   //escuchadores de eventos
   document.addEventListener("keydown", keyDownHandler, false);
@@ -150,7 +168,4 @@ function drawAndUpdate() {
   }
 }
 
-// When you click on start, you should execute the code below
 var gameInterval;
-// var gameInterval = setInterval(drawAndUpdate, 10);
-// tarea para después: cambia el color de la bola a un color al azar, cada vez que golpea una pared.
